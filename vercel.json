@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "buildCommand": "npm run build:FE",
     "builds": [
       {
          "src": "dashboard",
@@ -14,12 +15,8 @@
     ],
     "routes": [
       {
-         "src": "/api/(.*)",
-         "dest": "api/index.js"
-       },
-       {
          "src": "/(.*)",
-         "dest": "dashboard/$1"
+         "dest": "api/index.js"
        }
     ]
    }
