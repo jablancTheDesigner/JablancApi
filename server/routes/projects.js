@@ -1,6 +1,6 @@
-import Project from "../../data/project.js";
+import Project from "../data/project.js";
 import express from "express";
-import { fireStore } from "../../firebase/firebase.js"
+import { fireStore } from "../firebase/firebase.js"
 import { addDoc, collection, getDocs, deleteDoc, getDoc, doc } from 'firebase/firestore';
 
 const projectsRouter = express.Router();

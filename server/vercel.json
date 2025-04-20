@@ -1,12 +1,6 @@
 {
     "version": 2,
-    "devCommand": "npm run build:FE",
     "builds": [
-      {
-         "src": "dashboard",
-         "use": "@vercel/vite",
-         "config": { "includeFiles": ["*"] }
-     },
      {
         "src": "api/index.js",
         "use": "@vercel/node",

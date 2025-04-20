@@ -1,5 +1,5 @@
 import express from "express";
-import projectsRouter from "./routes/projects.js";
+import projectsRouter from "../routes/projects.js";
 import cors from "cors"
 import path from "path"
 import { resolvers } from "../gql/resolvers/projectResolvers.js"
