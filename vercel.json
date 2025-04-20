@@ -1,21 +1,28 @@
 {
-    "version": 2,
-    "builds": [
-      {
-         "src": "dashboard",
-         "use": "@vercel/vite",
-         "config": { "includeFiles": ["*"] }
+   "version": 2,
+   "builds": [
+     {
+       "src": "api/index.js",
+       "use": "@vercel/node"
      },
      {
-        "src": "api/index.js",
-        "use": "@vercel/node",
-        "config": { "includeFiles": ["*"] }
-    }
-    ],
-    "routes": [
-      {
-         "src": "/(.*)",
-         "dest": "api/index.js"
-      }
-    ]
-   }
+       "src": "dashboard/dist/**",
+       "use": "@vercel/static"
+     }
+   ],
+   "routes": [
+     {
+       "src": "/graphql",
+       "dest": "api/index.js"
+     },
+     {
+       "src": "/projects/(.*)",
+       "dest": "api/index.js"
+     },
+     {
+       "src": "/(.*)",
+       "dest": "dashboard/dist/$1"
+     }
+   ]
+ }
+ 
