@@ -5,10 +5,8 @@
   "main": "api/index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:FE": "cd dashboard && npm run build && cd ..",
-    "start": "npm run build:FE && cd server && node api/index.js",
-    "dev": "npm run build:FE && nodemon api/index.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
   },
   "keywords": [],
   "author": "",
