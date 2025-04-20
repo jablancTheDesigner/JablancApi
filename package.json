@@ -6,16 +6,20 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index"
+    "build:FE": "cd dashboard && npm run build && cd ..",
+    "start": "npm run build:FE && node index.js",
+    "dev": "npm run build:FE && nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@apollo/server": "^4.12.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "firebase": "^11.6.0",
+    "graphql": "^16.10.0",
     "nodemon": "^3.1.9",
     "path": "^0.12.7"
   }
