@@ -2,13 +2,13 @@
   "name": "jablanc-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:FE": "cd dashboard && npm run build && cd ..",
-    "start": "npm run build:FE && node index.js",
-    "dev": "npm run build:FE && nodemon index.js"
+    "start": "npm run build:FE && node api/index.js",
+    "dev": "npm run build:FE && nodemon api/index.js"
   },
   "keywords": [],
   "author": "",

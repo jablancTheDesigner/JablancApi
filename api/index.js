@@ -2,8 +2,8 @@ import express from "express";
 import projectsRouter from "./routes/projects.js";
 import cors from "cors"
 import path from "path"
-import { resolvers } from "./gql/resolvers/projectResolvers.js"
-import { typeDefs } from "./gql/schemas/index.js"
+import { resolvers } from "../gql/resolvers/projectResolvers.js"
+import { typeDefs } from "../gql/schemas/index.js"
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from '@apollo/server/standalone';
 
@@ -31,4 +31,4 @@ const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
 });
 
-  console.log(`🚀  Server ready at: ${url}`);
+console.log(`🚀  Server ready at: ${url}`);

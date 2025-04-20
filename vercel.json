@@ -1,16 +1,21 @@
 {
     "version": 2,
     "builds": [
+      {
+         "src": "dashboard",
+         "use": "@vercel/vite",
+         "config": { "includeFiles": ["*"] }
+     },
      {
-        "src": "dashboard/index.js",
-        "use": "@vercel/vite",
+        "src": "api/index.js",
+        "use": "@vercel/node",
         "config": { "includeFiles": ["*"] }
-       }
+    }
     ],
     "routes": [
-     {
-      "src": "/(.*)",
-      "dest": "index.js"
-     }
+      {
+         "src": "/(.*)",
+         "dest": "api/index.js"
+      }
     ]
    }
