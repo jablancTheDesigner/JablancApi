@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "buildCommand": "npm run build:FE",
+    "devCommand": "npm run build:FE",
     "builds": [
       {
          "src": "dashboard",
