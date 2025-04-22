@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.port || 5050;
 const __dirname = path.resolve();
 
-const whitelist = ['http://jablanc.com', "https://api-jablanc.vercel.app"]
+const whitelist = ['http://jablanc.com', "https://api-jablanc.vercel.app", "https://jablanc-dashboard.vercel.app"]
 var corsOptionsDelegate = function (req, callback) {
     var corsOptions;
     if (whitelist.indexOf(req.header('Origin')) !== -1) {
