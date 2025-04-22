@@ -15,7 +15,7 @@ const whitelist = ['http://jablanc.com', "https://api-jablanc.vercel.app"]
 const corsOptions = {
     methods: 'GET,POST',
     allowedHeaders: 'Content-Type',
-    origin: function (origin) {
+    origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
             callback(null, true)
         } else {
