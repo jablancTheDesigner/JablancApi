@@ -14,21 +14,21 @@ const __dirname = path.resolve();
 const whitelist = ['http://jablanc.com', "https://api-jablanc.vercel.app"]
 const corsOptions = {
     methods: 'GET,POST',
-    allowedHeaders: 'Content-Type,Authorization',
+    allowedHeaders: 'Content-Type',
     origin: function (origin) {
         if (whitelist.indexOf(origin) !== -1) {
-            return origin
+            callback(null, true)
         } else {
-        callback(new Error('Not allowed by CORS'))
+            callback(new Error('Not allowed by CORS'))
         }
     }
 }
-app.use(cors(corsOptions))
+
 app.use(express.json())
 
 app.use(express.static(path.join(__dirname, 'dashboard/dist')));
 
-app.use("/projects", projectsRouter)
+app.use("/projects", cors(corsOptions), projectsRouter)
 
 app.listen(port , (err) => {
     console.log(`Server on port localhost:${port}`)
