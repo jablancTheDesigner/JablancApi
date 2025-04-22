@@ -14,7 +14,8 @@ function App() {
   const [form, setForm] = useState(defaultForm)
   const [type, setType] = useState("web")
   const [projects, setProjects] = useState([])
-  const [managedProjects, setManagedProjects] = useState([])
+  const [managedProjects, setManagedProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleType = (e) => {
     if(e.target.checked){
@@ -41,14 +42,15 @@ function App() {
 
   const handleCreateProjectSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-      const res = await fetch("http://localhost:5050/projects/add", {
+      const res = await fetch("https://api-jablanc.vercel.app/projects/add", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(form),
-      })
+      });
       const data = await res.json();
       const docId = data.id;
       setManagedProjects([
@@ -57,14 +59,17 @@ function App() {
       ]);
       setForm(defaultForm)
       setType("web")
+      setIsLoading(false);
+      fetchProjects();
     } catch(e){
       console.log(e)
     }
   }
 
   const handleDelete = async (id) => {
+    setIsLoading(true);
     try {
-      await fetch("http://localhost:5050/projects/delete", {
+      await fetch("https://api-jablanc.vercel.app/projects/delete", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
@@ -72,16 +77,22 @@ function App() {
         body: JSON.stringify({"docId": id}),
       })
       setManagedProjects([...managedProjects, id ]);
+      setIsLoading(false);
+      fetchProjects();
     } catch(e){
       console.log(e)
     }
   }
 
   const handleEdit = async (id) => {
+    setIsLoading(true);
     try {
-      const res = await fetch(`http://localhost:5050/projects/${id}`)
-      const data = await res.json();
-      alert(JSON.stringify(data.project))
+      // const res = await fetch(`https://api-jablanc.vercel.app/projects/${id}`)
+      // const data = await res.json();
+      // console.log(JSON.stringify(data.project))
+      console.log(id)
+      setIsLoading(false);
+      fetchProjects();
     } catch(e){
       console.log(e)
     }
@@ -89,13 +100,15 @@ function App() {
 
   useEffect(() => {
     fetchProjects();
-  }, [managedProjects])
+  }, [])
 
   const fetchProjects = async () => {
+    setIsLoading(true);
     try {
-      const res = await fetch("http://localhost:5050/projects")
+      const res = await fetch("https://api-jablanc.vercel.app/projects");
       const data = await res.json()
       console.log(data)
+      setIsLoading(false);
       setProjects(data.projects)
     } catch(e){
       console.log(e)
@@ -115,14 +128,14 @@ function App() {
 
               <div className="col-span-full sm:col-span-3">
                 <label htmlFor="" className="text-sm">Title</label>
-                <input type="text" name="title" value={form.title}  onChange={(e) => setForm({...form, title: e.target.value })} className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-violet-600 border-gray-300 border-1" />
+                <input type="text" name="title" value={form.title}  onChange={(e) => setForm({...form, title: e.target.value })} className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-violet-600 border-gray-300 border-1 p-2" />
               </div>
 
               <div className="col-span-full sm:col-span-3">
                 <label htmlFor="type" className="inline-flex items-center p-2 rounded-md cursor-pointer dark:text-gray-100">
                   <input id="type" type="checkbox" className="hidden peer" onChange={handleType} checked={type === "web"} />
-                  <span className="px-4 py-2 rounded-l-md bg-gray-300 peer-checked:bg-navy peer-checked:text-gray-300">Web</span>
-                  <span className="px-4 py-2 rounded-r-md bg-navy text-gray-300 peer-checked:bg-gray-300 peer-checked:text-navy">Print</span>
+                  <span className="p-4 rounded-l-md bg-gray-300 peer-checked:bg-navy peer-checked:text-gray-300">Web</span>
+                  <span className="p-4 rounded-r-md bg-navy text-gray-300 peer-checked:bg-gray-300 peer-checked:text-navy">Print</span>
                 </label>
               </div>
 
@@ -135,7 +148,7 @@ function App() {
                       url: e.target.value 
                     }
                   })} 
-                  className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-violet-600 border-gray-300 border-1 disabled:bg-gray-300"
+                  className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-violet-600 border-gray-300 border-1 disabled:bg-gray-300 p-2"
                   disabled={type !== "web"} />
               </div>
 
@@ -148,10 +161,11 @@ function App() {
                     repoLink: e.target.value 
                   }
                 })} 
-                className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-violet-600 border-gray-300 border-1 disabled:bg-gray-300"
+                className="w-full rounded-md focus:ring focus:ring-opacity-75 focus:ring-violet-600 border-gray-300 border-1 disabled:bg-gray-300 p-2"
                 disabled={type !== "web"} />
               </div>
-              <button type='submit' className="px-4 py-2 border rounded-md border-gray-800 cursor-pointer col-span-3"> Create </button>
+              <div className='col-span-5'></div>
+              <button type='submit' className="px-4 py-2 border rounded-md border-gray-800 cursor-pointer col-span-2"> Create </button>
             </div>
           </fieldset>
         </form>
@@ -166,9 +180,10 @@ function App() {
             <div className="space-y-2 col-span-full lg:col-span-1">
               <p className="font-medium">My Projects - ({projects.length})</p>
             </div>
-            <div className='flex flex-wrap gap-12 flex-col sm:flex-row col-span-full lg:col-span-3 min-h-[500px]'>
-              {projects.map((project) => (
-                <div className="max-w-xs  min-w-[320px] rounded-md shadow-md bg-gray-50 text-navy relative" key={project.id}>
+            <div className='flex flex-wrap gap-12 flex-col sm:flex-row col-span-full lg:col-span-3 min-h-[600px]'>
+              {isLoading && Array.from({length:10}).map(() => <div className='max-w-xs  min-w-[320px] rounded-md shadow-md  relative min-h-[460px] bg-gray-400'></div>)}
+              {!isLoading && projects.map((project) => (
+                <div className="max-w-xs  min-w-[320px] rounded-md shadow-md bg-gray-50 text-navy relative  max-h-[460px] flex flex-col" key={project.id}>
                   <button className="absolute top-2 right-2  py-2 px-4 cursor-pointer bg-white text-navy" onClick={() => handleDelete(project.id)}>Delete</button>
                   <img src={`https://placehold.co/300x300/${project.metaData.type === "web" ? '101828' : 'red'}/FFFFFF/png?text=Placeholder`} alt="" className="object-cover object-center w-full rounded-t-md h-72 dark:bg-gray-500" />
                   <div className="flex flex-1 flex-col p-6">

@@ -11,7 +11,17 @@ const app = express();
 const port = process.env.port || 5050;
 const __dirname = path.resolve();
 
-app.use(cors())
+const whitelist = ['http://jablanc.com']
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions))
 app.use(express.json())
 
 app.use(express.static(path.join(__dirname, 'dashboard/dist')));
